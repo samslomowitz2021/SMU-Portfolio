@@ -1,0 +1,82 @@
+Sub Dosomething()
+    Dim xSh As Worksheet
+    Application.ScreenUpdating = True
+    For Each xSh In Worksheets
+        xSh.Select
+        Call RunCode
+    Next
+    Application.ScreenUpdating = True
+End Sub
+
+Sub RunCode()
+
+      Dim RowEnd As Double
+      RowEnd = Range("A" & Rows.Count).End(xlUp).Row
+      ' Set an initial variable for holding the stock name
+      Dim Stock_Name As String
+
+      ' Set an initial variable for holding the total stock volume of the stock
+      Dim Vol_Total As Double
+      Vol_Total = 0
+
+      ' Keep track of the location for each stock in the summary table
+      Dim Summary_Table_Row As Double
+      Summary_Table_Row = 2
+
+      Dim Summary_Table_Row2 As Double
+      Summary_Table_Row2 = 2
+
+      ' Loop through all stocks
+      For i = 2 To RowEnd
+
+        ' Check if we are still within the same stock, if it is not...
+        If Cells(i + 1, 1).Value <> Cells(i, 1).Value Then
+
+          ' Set the Stock name
+          Stock_Name = Cells(i, 1).Value
+          ClosePrice = Cells(i, 6).Value
+          OpenPrice = Cells(i + 1, 3).Value
+          Range("J" & Summary_Table_Row2 + 1).Value = OpenPrice
+          Cells(2, 10).Value = Cells(2, 3).Value
+
+           Summary_Table_Row2 = Summary_Table_Row2 + 1
+          '
+          ' MsgBox (ClosePrice)
+          ' MsgBox (OpenPrice)
+
+          ' Add to the Volume Total
+          Vol_Total = Vol_Total + Cells(i, 7).Value
+
+          ' Print the Stock in the Summary Table
+          Range("I" & Summary_Table_Row).Value = Stock_Name
+
+          ' Print the Total Stock Volume to the Summary Table
+          Range("N" & Summary_Table_Row).Value = Vol_Total
+          Range("K" & Summary_Table_Row).Value = ClosePrice
+
+          ' Add one to the summary table row
+          Summary_Table_Row = Summary_Table_Row + 1
+
+          ' Reset the Volume Total
+          Vol_Total = 0
+
+        ' If the cell immediately following a row is the same stock...
+        'ElseIf Cells(i + 1, 1).Value <> Cells(i, 1).Value And Cells(i + 1, 2).Value < Cells(i, 2).Value And Cells(i + 1, 2).Value < Cells(i + 2, 2).Value Then
+            'OpenPrice = Cells(i, 3).Value
+            'Range("J" & Summary_Table_Row2).Value = OpenPrice
+
+            'Summary_Table_Row2 = Summary_Table_Row2 + 1
+        Else
+
+
+          ' Add to the Brand Total
+          Vol_Total = Vol_Total + Cells(i, 7).Value
+
+        End If
+
+      Next i
+
+
+
+
+End Sub

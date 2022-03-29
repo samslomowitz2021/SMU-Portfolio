@@ -1,0 +1,51 @@
+SELECT *
+FROM employees
+LIMIT 10;
+
+SELECT first_name, last_name, hire_date
+FROM employees
+WHERE hire_date BETWEEN '1986-01-01' AND '1986-12-31'
+ORDER BY hire_date ASC
+LIMIT 10;
+
+SELECT dm.dept_no, d.dept_name, dm.emp_no, e.last_name, e.first_name
+FROM dept_manager dm
+JOIN employees e on dm.emp_no = e.emp_no
+JOIN departments d on dm.dept_no = d.dept_no
+LIMIT 10;
+
+SELECT e.emp_no, e.last_name, e.first_name, d.dept_no
+FROM employees e
+JOIN dept_emp de on e.emp_no=de.emp_no
+JOIN departments d on de.dept_no = d.dept_no
+LIMIT 10;
+
+SELECT e.emp_no, e.last_name, e.first_name, d.dept_no
+from employees e
+JOIN dept_emp de on e.emp_no = de.emp_no
+JOIN departments d on de.dept_no = d.dept_no
+where first_name = 'Hercules'
+and last_name LIKE 'B%'
+limit 10;
+
+SELECT e.emp_no, e.last_name, e.first_name, d.dept_name
+FROM employees e
+JOIN dept_emp de on e.emp_no = de.emp_no
+JOIN departments d on de.dept_no = d.dept_no
+WHERE dept_name = 'Sales'
+LIMIT 10;
+
+SELECT e.emp_no, e.last_name, e.first_name, d.dept_name
+FROM employees e
+JOIN dept_emp de on e.emp_no = de.emp_no
+JOIN departments d on de.dept_no = d.dept_no
+WHERE dept_name = 'Sales' or dept_name = 'Development'
+LIMIT 10;
+
+SELECT e.last_name, COUNT(DISTINCT e.last_name)
+FROM employees e
+JOIN dept_emp de on e.emp_no = de.emp_no
+JOIN departments d on de.dept_no = d.dept_no
+GROUP BY e.last_name
+ORDER BY e.last_name DESC
+LIMIT 10; 

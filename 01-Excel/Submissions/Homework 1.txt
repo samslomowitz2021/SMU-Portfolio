@@ -1,0 +1,31 @@
+Sub Success():
+
+    Dim i As Integer
+    Dim j As Integer
+
+    For i = 2 To 4115
+
+        For j = 1 To 2
+
+            If Cells(i, 1).Value = "successful" Then
+                Cells(i, 4).Value = "successful"
+                Cells(i, 5).Value = Cells(i, 2).Value
+
+            End If
+        Next j
+    Next i
+
+    For i = 2 To 4115
+
+        For j = 1 To 2
+
+            If Cells(i, 1).Value = "failed" Then
+                Cells(i, 7).Value = "failed"
+                Cells(i, 8).Value = Cells(i, 2).Value
+
+            End If
+        Next j
+    Next i
+
+
+End Sub

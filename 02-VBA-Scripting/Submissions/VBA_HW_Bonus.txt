@@ -1,0 +1,89 @@
+Sub Dosomething()
+    Dim xSh As Worksheet
+    Application.ScreenUpdating = True
+    For Each xSh In Worksheets
+        xSh.Select
+        Call Greatest
+    Next
+    Application.ScreenUpdating = True
+End Sub
+
+Sub Greatest():
+Dim x As Double
+Dim var1 As String
+  Dim RowEnd As Double
+  RowEnd = Range("I" & Rows.Count).End(xlUp).Row
+Dim rng As Range
+
+Set rng = Range("M:M")
+x = WorksheetFunction.Max(rng)
+Range("R1") = x
+Range("R1").NumberFormat = "0.00%"
+
+For i = 1 To RowEnd
+    If Cells(i, 13).Value = Cells(1, 18).Value Then
+        var1 = Cells(i, 9).Value
+        Cells(1, 17).Value = var1
+    Else
+    End If
+Next i
+
+Dim x2 As Double
+Dim var2 As String
+  Dim RowEnd2 As Double
+  RowEnd2 = Range("I" & Rows.Count).End(xlUp).Row
+Dim rng2 As Range
+
+Set rng2 = Range("M:M")
+x2 = WorksheetFunction.Min(rng2)
+Range("R2") = x2
+Range("R2").NumberFormat = "0.00%"
+
+For i = 1 To RowEnd2
+    If Cells(i, 13).Value = Cells(2, 18).Value Then
+        var2 = Cells(i, 9).Value
+        Cells(2, 17).Value = var2
+    Else
+    End If
+Next i
+
+
+Dim x3 As Double
+Dim var3 As String
+  Dim RowEnd3 As Double
+  RowEnd3 = Range("I" & Rows.Count).End(xlUp).Row
+Dim rng3 As Range
+
+Set rng3 = Range("N:N")
+x3 = WorksheetFunction.Max(rng3)
+Range("R3") = x3
+Range("R3").NumberFormat = General
+
+For i = 1 To RowEnd3
+    If Cells(i, 14).Value = Cells(3, 18).Value Then
+        var3 = Cells(i, 9).Value
+        Cells(3, 17).Value = var3
+    Else
+    End If
+Next i
+
+Dim x4 As Double
+Dim var4 As String
+  Dim RowEnd4 As Double
+  RowEnd4 = Range("I" & Rows.Count).End(xlUp).Row
+Dim rng4 As Range
+
+Set rng4 = Range("L:L")
+x4 = WorksheetFunction.Max(rng4)
+Range("R4") = x4
+Range("R4").NumberFormat = General
+
+For i = 1 To RowEnd4
+    If Cells(i, 12).Value = Cells(4, 18).Value Then
+        var4 = Cells(i, 9).Value
+        Cells(4, 17).Value = var4
+    Else
+    End If
+Next i
+
+End Sub
