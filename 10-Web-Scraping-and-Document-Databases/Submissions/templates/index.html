@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Mars Scrape</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/darkly/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="../static/app.js"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" href="#">Home</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+    </nav>
+    <hr style="border-width: 3px">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Latest Mars News</h1>
+                <h3>{{ mars.news_title }}</h3>
+                <p>{{ mars.news_p }}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8">
+                <h1>Featured Mars Image</h1>
+                <a href="{{mars.featured_image_url}}" target="_blank"><img style="width:100%" src="{{mars.featured_image_url}}"></a>
+            </div>
+            <div class="col-md-4">
+                <h1>Mars Facts</h1>
+                <div>{{ mars.mars_facts|safe }}</div>
+            </div>
+        </div>
+        <hr style="border-width:3px;color:darkgrey;">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Mars Hemispheres</h1>
+                <hr style="border-width:3px;color:darkgrey;">
+            </div>
+        </div>
+
+        <div class="row">
+            {% for hemi in mars.hemispheres[0:2] %}
+            <div class="col-md-6">
+                <h3>{{hemi.title}}</h3>
+                <a href="{{hemi.img_url}}" target="_blank"><img style="width:100%" src="{{hemi.img_url}}"></a>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="row">
+            {% for hemi in mars.hemispheres[2:4] %}
+            <div class="col-md-6">
+                <h3>{{hemi.title}}</h3>
+                <a href="{{hemi.img_url}}" target="_blank"><img style="width:100%" src="{{hemi.img_url}}"></a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+</body>
+
+</html>

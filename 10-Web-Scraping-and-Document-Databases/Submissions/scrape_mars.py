@@ -6,7 +6,6 @@ from splinter import Browser
 from bs4 import BeautifulSoup
 from webdriver_manager.chrome import ChromeDriverManager
 import pandas as pd
-import numpy as np
 
 import requests
 
@@ -15,27 +14,21 @@ class marsData():
         pass
         
     def scrape_mars(self):
-        url = "https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"
         executable_path = {'executable_path': ChromeDriverManager().install()}
         browser = Browser('chrome', **executable_path, headless=False)
-        browser.visit(url)
-
-        # browser.click_link_by_partial_text('development jQuery 3.6.0')
-
-        # for x in range(12):
-        #     try:
-        #         browser.click_link_by_id("reload-button")
-        #     except:
-        #         pass
+        
+        browser.visit("https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js")
 
         url = 'https://redplanetscience.com/'
-
-        
-        
         browser.visit(url)
 
-        response = requests.get(url)
+        for x in range(20):
+            try:
+                browser.reload()
+            except:
+                pass
 
+        response = requests.get(url)
         html = response.text
 
         html = browser.html
@@ -94,13 +87,13 @@ class marsData():
             soup2 = BeautifulSoup(html2)
             information_url = url + soup2.find("img", {"class": "wide-image"})["src"]
             
-            data_1 = {"title": title, "img_url": url2}
+            data_1 = {"title": title, "img_url": information_url}
             list10.append(data_1)
         list10
 
         data = {}
-        # data["news_paragraph"] = news_para2
-        # data["news_title"] = news_title2
+        data["news_paragraph"] = news_para2
+        data["news_title"] = news_title2
         data["featured_image_url"] = featured_image_url
         data["mars_facts"] = df.to_html()
         data["hemispheres"] = list10

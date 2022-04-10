@@ -1,6 +1,6 @@
 import pymongo
 
-class HelperClass():
+class MongoHelper():
     def __init__(self):
         # Create connection variable
         self.conn = 'mongodb://localhost:27017'
@@ -9,14 +9,14 @@ class HelperClass():
         self.engine = pymongo.MongoClient(self.conn)
 
         # Connect to a database. Will create one if not already available.
-        self.db = self.engine.mars_db_20
+        self.db = self.engine.mars_db
 
     def insertData(self, data):
         # Drops collection if available to remove duplicates
-        self.db.space.drop()
+        self.db.mars.drop()
 
         # Creates a collection in the database and inserts two documents
-        self.db.space.insert_many(
+        self.db.mars.insert_many(
             [
                 data
             ]

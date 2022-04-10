@@ -1,6 +1,6 @@
 from flask import Flask, render_template, redirect
 from scrape_mars import marsData
-from helperClass import HelperClass
+from helperClass import MongoHelper
 
 
 
@@ -10,15 +10,16 @@ app = Flask(__name__)
 
 # init helper classes
 
+mongo = MongoHelper()
 scraper = marsData()
-database1 = HelperClass()
+
 
 
 # Route to render index.html template using data from Mongo
 @app.route("/")
 def home():
-    mydata = list(database1.db.space.find())[0]
-    return render_template('index.html', space=mydata)
+    mars_data = list(mongo.db.mars.find())[0]
+    return render_template('index.html', mars=mars_data)
 
 # Route that will trigger the scrape function
 @app.route("/scrape")
@@ -30,7 +31,7 @@ def scrape():
 
 
     # Update the Mongo database using update and upsert=True
-    database1.insertData(data)
+    mongo.insertData(data)
 
     # Redirect back to home page
     return redirect("/")
