@@ -22,7 +22,7 @@ class marsData():
         url = 'https://redplanetscience.com/'
         browser.visit(url)
 
-        for x in range(20):
+        for x in range(100):
             try:
                 browser.reload()
             except:
@@ -70,34 +70,37 @@ class marsData():
 
         html = browser.html
         soup = BeautifulSoup(html)
+       
 
-        information = soup.find_all("div", {"class": "item"})
+        items = soup.find_all("div", {"class": "item"})
 
-        list10 = []
+        hemi_info = []
 
-        for x in information:
-        
-            link = x.find("div", {"class", "description"}).find("a")
-            url2 = url + link["href"]
-            title = link.text.strip().strip("Enhanced").strip()
+        for item in items:
+            # parse page 1
+            item_link = item.find("div", {"class", "description"}).find("a")
+            item_url = url + item_link["href"]
+            item_title = item_link.text.strip().strip("Enhanced").strip()
             
-        
-            browser.visit(url2)
+            # visit the found URL
+            browser.visit(item_url)
+            browser.click_link_by_id('wide-image-toggle')
             html2 = browser.html
             soup2 = BeautifulSoup(html2)
-            information_url = url + soup2.find("img", {"class": "wide-image"})["src"]
+            hemi_url = url + soup2.find("img", {"class": "wide-image"})["src"]
             
-            data_1 = {"title": title, "img_url": information_url}
-            list10.append(data_1)
-        list10
+            data = {"title": item_title, "img_url": hemi_url}
+            hemi_info.append(data)
+        
+        data_scraped = {}
+        data_scraped["news_p"] = news_para2
+        data_scraped["news_title"] = news_title2
+        data_scraped["featured_image_url"] = featured_image_url
+        data_scraped["mars_facts"] = df.to_html(header=False)
+        data_scraped["hemispheres"] = hemi_info
 
-        data = {}
-        data["news_paragraph"] = news_para2
-        data["news_title"] = news_title2
-        data["featured_image_url"] = featured_image_url
-        data["mars_facts"] = df.to_html()
-        data["hemispheres"] = list10
-
+        browser.quit()
+        
         return(data)
 
 

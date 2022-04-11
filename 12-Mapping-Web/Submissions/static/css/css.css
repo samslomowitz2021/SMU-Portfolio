@@ -1,11 +1,25 @@
-body {
-    padding: 0;
-    margin: 0;
-  }
+.map-container {
+  position: absolute;
+  height: 1050px;
+  width: 1400px;
+}
+
+#map {
+  position: absolute;
+  height: 100%;
+  width: 100%;
   
-  #map,
-  body,
-  html {
-    height: 100%;
-  }
+}
   
+  h3 {
+color:#4E878C;
+font-family:verdana;
+
+  }
+
+p {
+
+color:#65B891;
+font-family:verdana;
+
+}

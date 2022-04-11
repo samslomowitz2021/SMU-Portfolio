@@ -4,7 +4,12 @@
 <head>
     <meta charset="utf-8">
     <title>Sam's Geo JSON Dashboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/darkly/bootstrap.min.css">
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
 
@@ -23,8 +28,17 @@
 </head>
 
 <body>
-    <h1>Hello World!</h1>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 jumbotron text-center">
+                <h1>Earthquake Dashboard</h1>
+                <p>Use the interactive dashboard below to explore recent Earthquakes</p>
+            </div>
+        </div>
+    <div class="col-md-12 map-container">
     <div id="map"></div>
+    </div>
 </body>
 
 </html>

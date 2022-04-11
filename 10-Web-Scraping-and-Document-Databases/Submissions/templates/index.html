@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Mars Scrape</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/darkly/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="../static/app.js"></script>
@@ -25,7 +25,7 @@
             <div class="col-md-12">
                 <h1>Latest Mars News</h1>
                 <h3>{{ mars.news_title }}</h3>
-                <p>{{ mars.news_p }}</p>
+                <p>{{ mars.news_para2 }}</p>
             </div>
         </div>
         <div class="row">
@@ -45,23 +45,28 @@
                 <hr style="border-width:3px;color:darkgrey;">
             </div>
         </div>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <h3>{{mars.hemispheres[0].title}}</h3>
+                <img src="{{mars.hemispheres[0].img_url}}">
+            </div>
+            <div class="col-md-6">
+                <h3>{{mars.hemispheres[1].title}}</h3>
+                <img src="{{mars.hemispheres[1].img_url}}">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <h3>{{mars.hemispheres[2].title}}</h3>
+                <img src="{{mars.hemispheres[2].img_url}}">
+            </div>
+            <div class="col-md-6">
+                <h3>{{mars.hemispheres[3].title}}</h3>
+                <img src="{{mars.hemispheres[3].img_url}}">
+            </div>
+        </div>
 
-        <div class="row">
-            {% for hemi in mars.hemispheres[0:2] %}
-            <div class="col-md-6">
-                <h3>{{hemi.title}}</h3>
-                <a href="{{hemi.img_url}}" target="_blank"><img style="width:100%" src="{{hemi.img_url}}"></a>
-            </div>
-            {% endfor %}
-        </div>
-        <div class="row">
-            {% for hemi in mars.hemispheres[2:4] %}
-            <div class="col-md-6">
-                <h3>{{hemi.title}}</h3>
-                <a href="{{hemi.img_url}}" target="_blank"><img style="width:100%" src="{{hemi.img_url}}"></a>
-            </div>
-            {% endfor %}
-        </div>
     </div>
 
 </body>
