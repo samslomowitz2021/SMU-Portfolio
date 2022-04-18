@@ -101,7 +101,7 @@ class marsData():
 
         browser.quit()
         
-        return(data)
+        return(data_scraped)
 
 
 

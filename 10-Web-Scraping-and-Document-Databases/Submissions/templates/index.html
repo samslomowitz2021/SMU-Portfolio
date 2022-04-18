@@ -47,25 +47,22 @@
         </div>
         
         <div class="row">
+            {% for hemi in mars.hemispheres[0:2] %}
             <div class="col-md-6">
-                <h3>{{mars.hemispheres[0].title}}</h3>
-                <img src="{{mars.hemispheres[0].img_url}}">
+                <h3>{{hemi.title}}</h3>
+                <a href="{{hemi.img_url}}" target="_blank"><img style="width:100%" src="{{hemi.img_url}}"></a>
             </div>
-            <div class="col-md-6">
-                <h3>{{mars.hemispheres[1].title}}</h3>
-                <img src="{{mars.hemispheres[1].img_url}}">
-            </div>
+            {% endfor %}
         </div>
         <div class="row">
+            {% for hemi in mars.hemispheres[2:4] %}
             <div class="col-md-6">
-                <h3>{{mars.hemispheres[2].title}}</h3>
-                <img src="{{mars.hemispheres[2].img_url}}">
+                <h3>{{hemi.title}}</h3>
+                <a href="{{hemi.img_url}}" target="_blank"><img style="width:100%" src="{{hemi.img_url}}"></a>
             </div>
-            <div class="col-md-6">
-                <h3>{{mars.hemispheres[3].title}}</h3>
-                <img src="{{mars.hemispheres[3].img_url}}">
-            </div>
+            {% endfor %}
         </div>
+
 
     </div>
 

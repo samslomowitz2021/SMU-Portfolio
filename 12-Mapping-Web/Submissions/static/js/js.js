@@ -1,44 +1,124 @@
+// $(document).ready(function() {
+//     doWork();
+// });
+
+
+
+// function doWork() {
+//     var url = `https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson`;
+
+//     getData(url);
+// }
+
+// function doWork2() {
+//     var plates = "static/data/plates.json";
+
+//     getData2(plates);
+// }
+
+// function getData(url) {
+//     $.ajax({
+//         type: "GET",
+//         url: url,
+//         contentType: "application/json; charset=utf-8",
+//         success: function(info) {
+//             console.log(info);
+//             Map(info);
+//         },
+//         error: function(textStatus, errorThrown) {
+//             console.log("FAILED to get data");
+//             console.log(textStatus);
+//             console.log(errorThrown);
+//         }
+//     });
+// }
+
+
+// function getData2(plates) {
+//     $.ajax({
+//         type: "GET",
+//         url: plates,
+//         contentType: "application/json; charset=utf-8",
+//         success: function( plates) {
+//             console.log( plates);
+//             Map( plates);
+//         },
+//         error: function(textStatus, errorThrown) {
+//             console.log("FAILED to get data");
+//             console.log(textStatus);
+//             console.log(errorThrown);
+//         }
+//     });
+// }
+
+// window.$ = window.jQuery = require('jquery'); // not sure if you need this at all
+// window.Bootstrap = require('bootstrap');
+
+// var plates = "static/data/plates.json";
+// $(document).ready(function() {
+//     // AJAX
+//     jquery.getJSON(`static/data/earthquakes.geojson`, function(info) {
+//     // JSON result in `data` variable
+//     });
+    
+// });
+
+
+
+
+
+
 $(document).ready(function() {
-    doWork();
-});
-
-function doWork() {
-    var url = `https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson`;
-
-    getData(url);
-}
-
-function getData(url) {
+    // AJAX
     $.ajax({
         type: "GET",
-        url: url,
-        contentType: "application/json; charset=utf-8",
+        url: "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson",
+        contentType: "application/json",
+        dataType: "json",
         success: function(info) {
-            console.log(info);
-            Map(info);
+            // NESTED AJAX
+            $.ajax({
+                type: "GET",
+                url: "static/data/plates.json",
+                contentType: "application/json",
+                dataType: "json",
+                success: function(plates) {
+                    myMap(info, plates);
+
+                },
+                error: function() {
+                    console.log("YOU BROKE IT!!");
+                },
+                complete: function() {
+                    console.log("Request finished");
+                }
+            });
+
         },
-        error: function(textStatus, errorThrown) {
-            console.log("FAILED to get data");
-            console.log(textStatus);
-            console.log(errorThrown);
+        error: function() {
+            console.log("YOU BROKE IT!!");
+        },
+        complete: function() {
+            console.log("Request finished");
         }
     });
-}
+});
 
 function marker(feature, layer) {
     // does this feature have a property named popupContent?
     if (feature.properties) {
         layer.bindPopup(`<h3>${ feature.properties.title }</h3><hr><p>${new Date(feature.properties.time)}</p >`);
     }
-}
-
-
+// }
 // 3.
 // createMap() takes the earthquake data and incorporates it into the visualization:
-function Map(info) {
+function myMap(info,plates) {
+    console.log(plates)
 
     // apply the filter (if necessary)
     var events = info.features
+
+    var earthquakes =  plates.features.filter(x => x.geometry.coordinates);
 
     // Base Layers
     var dark = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
@@ -70,7 +150,9 @@ function Map(info) {
     var earthquakeLayer = L.geoJSON(events, {
         marker: marker
     });
-
+    var plateLayer = L.geoJSON(earthquakes, {
+        // marker: marker
+    });
     // A SECOND OVERLAY OBJECT
     var circles = [];
     for (let i = 0; i < events.length; i++) {
@@ -98,14 +180,21 @@ function Map(info) {
         "Dark": dark,
         "Light": light,
         "Street": street,
-        "Outdoors": outdoors
+        "Outdoors": outdoors,
+        worldCopyJump: true
     };
 
     // Overlays that can be toggled on or off
     var overlayMaps = {
         Markers: earthquakeLayer,
-        Circles: circleLayer
+        Circles: circleLayer,
+        worldCopyJump: true
     };
+
+    var overlayMaps2 = {
+        Earthquake: plateLayer
+    };
+
 
     // Create a new map.
     // Edit the code to add the earthquake data to the layers.
@@ -114,24 +203,25 @@ function Map(info) {
             37.09, -95.71
         ],
         zoom: 5,
-        layers: [dark, circleLayer]
+        layers: [dark, circleLayer],
+        worldCopyJump: true
     });
 
     // Create a layer control that contains our baseMaps.
     // Be sure to add an overlay Layer that contains the earthquake GeoJSON.
     var legend = L.control({ position: "bottomleft" });
 
-    L.control.layers(baseMaps, overlayMaps).addTo(myMap);
+    L.control.layers(baseMaps, overlayMaps, overlayMaps2).addTo(myMap);
 
     legend.onAdd = function(map) {
         var div = L.DomUtil.create("div", "legend");
         div.innerHTML += "<h4>Richter Scale</h4>";
-        div.innerHTML += '<i style="background: #477AC2"></i><span>-10 to 10</span><br>';
-        div.innerHTML += '<i style="background: #448D40"></i><span>10 to 30</span><br>';
-        div.innerHTML += '<i style="background: #E6E696"></i><span>30 to 50</span><br>';
-        div.innerHTML += '<i style="background: #E8E6E0"></i><span>50 to 70</span><br>';
-        div.innerHTML += '<i style="background: #FFFFFF"></i><span>70 to 90</span><br>';
-        div.innerHTML += '<i style="background: #FFFFFF"></i><span>90+</span><br>';
+        div.innerHTML += '<i style="background: #EE8434"></i><span>-10 to 10</span><br>';
+        div.innerHTML += '<i style="background: #C95D63"></i><span>10 to 30</span><br>';
+        div.innerHTML += '<i style="background: #AE8799"></i><span>30 to 50</span><br>';
+        div.innerHTML += '<i style="background: #717EC3"></i><span>50 to 70</span><br>';
+        div.innerHTML += '<i style="background: #496DDB"></i><span>70 to 90</span><br>';
+        div.innerHTML += '<i style="background: #3E505B"></i><span>90+</span><br>';
         
         
         
@@ -140,30 +230,31 @@ function Map(info) {
       };
       
       legend.addTo(myMap);
-    }
+
 
 function getRadius(mag) {
         return mag * 10000
 }
 
 function getColor(mag) {
-    let color2 = '#058C42';
+    let color2 = '#3E505B';
 
     if (mag <= 1.0) {
-        color2 = "red";
+        color2 = "#EE8434";
     } else if (mag <= 3.0) {
-        color2 = "#5E4352";
+        color2 = "#C95D63";
     } else if (mag <=5.0) {
-        color2 = "#E43F6F";
+        color2 = "#AE8799";
     } else if (mag <= 7.0) {
-        color2 = "#04471C";
+        color2 = "#717EC3";
     } else if (mag <= 9.0) {
-        color2 = "#DFBBB1";
+        color2 = "#496DDB";
     } else {
-        color2 = '#058C42';
+        color2 = '#3E505B';
     }
 
     return (color2);
 }
 
-    
+}
+}
