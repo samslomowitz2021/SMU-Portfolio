@@ -12,7 +12,7 @@ parameter if these anti-tumor drugs are to be clinically test in the human popul
 
 ## Preview of Project
 
-<p align="center">
+<p align="left">
   <img width="460" height="300" src="mat1.png">
 </p>
 <p align="center">
@@ -24,7 +24,7 @@ parameter if these anti-tumor drugs are to be clinically test in the human popul
 <p align="center">
   <img width="460" height="300" src="mat4.png">
 </p>
-<p align="center">
+<p align="right">
   <img width="460" height="300" src="mat5.png">
 </p>
   
