@@ -42,6 +42,14 @@ Additionally, I would ask for only $10,000 as a goal for funding (See Statistica
 
 The median describes the data better as there are outliers. Since the means are much larger than the median for both successful and failed groups, the data is skewed to the left with large outliers. The variance of successful is much larger and thus, has more variability. This makes sense since popular Kickstarter projects seems to gain a larger variability of backers. A successful Kickstarter project has different qualities that are viewed differently by different types of backers while a failed Kickstarter project has consistent qualities that backers recognize that lead it to a negative outcome. In addition, a two-sample t-test reveals that the means of the outcome are significantly different (p<.0001). Yet, the limitation of conducting a test with the mean is the poor representativeness of the data with the mean compared to the median.
 
+### Preview of Kickstarter Analysis
+
+![Alt text](kickstarter1.png?raw=true "Title")
+
+![Alt text](kickstarter2.png?raw=true "Title")
+
+![Alt text](kickstarter3.png?raw=true "Title")
+
  
 	
 ### References
