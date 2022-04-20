@@ -11,7 +11,7 @@ is not equivalent to a male human, for example. Thus, gender is not a representa
 parameter if these anti-tumor drugs are to be clinically test in the human population.
 
 ## Preview of Project
-
+<center>
 ![Alt text](mat1.png?raw=true "Title")
 
 ![Alt text](mat2.png?raw=true "Title")
@@ -21,3 +21,5 @@ parameter if these anti-tumor drugs are to be clinically test in the human popul
 ![Alt text](mat4.png?raw=true "Title")
 
 ![Alt text](mat5.png?raw=true "Title")
+  
+ </center>
