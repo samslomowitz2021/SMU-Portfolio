@@ -4,9 +4,9 @@ I built a dynamic dashboard using JavaScript and the Plot.ly library on bacteria
 
 
 <p align="center">
-  <img width="460" height="300" src="plotly1">
+  <img width="460" height="300" src="plotly1.png">
 </p>
 
 <p align="center">
-  <img width="460" height="300" src="plotly2">
+  <img width="460" height="300" src="plotly2.png">
 </p>
