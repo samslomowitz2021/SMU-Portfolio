@@ -1,4 +1,6 @@
-# Election Results
+# PyPoll and PyBank 
+
+In this mini project, I iterated over two large CSV files using Python. The first CSV file contains election data while the second contains bank data. 
 
 ## Total Votes: 3521001
 
@@ -13,7 +15,7 @@ O'Tooley: 3.0% 105630
 ### Winner: Khan
 
 
-# Financial Analysis
+## Financial Analysis
 
 Total months: 86
 <br>
