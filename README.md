@@ -8,7 +8,7 @@
 
 ![Alt text](API1.png?raw=true "Title")
 
-<p align="center">
+<p align="right">
   <img width="460" height="300" src="erd1.png">
 </p>
 
