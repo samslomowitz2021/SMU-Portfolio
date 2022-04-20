@@ -2,7 +2,7 @@
 
 I analyzed weather data and vacation data using APIs and Python.
 
-<p align="center">
+<p align="left">
   <img width="460" height="300" src="lat_cloud.png">
 </p>
 
@@ -14,6 +14,6 @@ I analyzed weather data and vacation data using APIs and Python.
   <img width="460" height="300" src="lat_temp.png">
 </p>
 
-<p align="center">
+<p align="right">
   <img width="460" height="300" src="lat_wind.png">
 </p>
