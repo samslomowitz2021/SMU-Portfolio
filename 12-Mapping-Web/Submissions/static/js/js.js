@@ -1,145 +1,88 @@
-// $(document).ready(function() {
-//     doWork();
-// });
-
-
-
-// function doWork() {
-//     var url = `https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson`;
-
-//     getData(url);
-// }
-
-// function doWork2() {
-//     var plates = "static/data/plates.json";
-
-//     getData2(plates);
-// }
-
-// function getData(url) {
-//     $.ajax({
-//         type: "GET",
-//         url: url,
-//         contentType: "application/json; charset=utf-8",
-//         success: function(info) {
-//             console.log(info);
-//             Map(info);
-//         },
-//         error: function(textStatus, errorThrown) {
-//             console.log("FAILED to get data");
-//             console.log(textStatus);
-//             console.log(errorThrown);
-//         }
-//     });
-// }
-
-
-// function getData2(plates) {
-//     $.ajax({
-//         type: "GET",
-//         url: plates,
-//         contentType: "application/json; charset=utf-8",
-//         success: function( plates) {
-//             console.log( plates);
-//             Map( plates);
-//         },
-//         error: function(textStatus, errorThrown) {
-//             console.log("FAILED to get data");
-//             console.log(textStatus);
-//             console.log(errorThrown);
-//         }
-//     });
-// }
-
-// window.$ = window.jQuery = require('jquery'); // not sure if you need this at all
-// window.Bootstrap = require('bootstrap');
-
-// var plates = "static/data/plates.json";
-// $(document).ready(function() {
-//     // AJAX
-//     jquery.getJSON(`static/data/earthquakes.geojson`, function(info) {
-//     // JSON result in `data` variable
-//     });
-    
-// });
-
-
-
-
-
-
 $(document).ready(function() {
-    // AJAX
+    doWork();
+});
+
+function doWork() {
+    var url = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson";
+    var plate_url = "static/data/plates.json";
+    requestAjax(url, plate_url);
+}
+
+function requestAjax(url, plate_url) {
     $.ajax({
         type: "GET",
-        url: "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson",
-        contentType: "application/json",
-        dataType: "json",
-        success: function(info) {
+        url: url,
+        contentType: "application/json; charset=utf-8",
+        success: function(data) {
             // NESTED AJAX
             $.ajax({
                 type: "GET",
-                url: "static/data/plates.json",
+                url: plate_url,
                 contentType: "application/json",
                 dataType: "json",
-                success: function(plates) {
-                    myMap(info, plates);
+                success: function(plate_data) {
+                    console.log(data);
+                    console.log(plate_data);
+                    createMap(data, plate_data);
 
                 },
-                error: function() {
+                error: function(data) {
                     console.log("YOU BROKE IT!!");
                 },
-                complete: function() {
+                complete: function(data) {
                     console.log("Request finished");
                 }
             });
-
         },
-        error: function() {
-            console.log("YOU BROKE IT!!");
-        },
-        complete: function() {
-            console.log("Request finished");
+        error: function(textStatus, errorThrown) {
+            console.log("FAILED to get data");
+            console.log(textStatus);
+            console.log(errorThrown);
         }
     });
-});
+}
 
-function marker(feature, layer) {
+
+
+
+function onEachFeature(feature, layer) {
     // does this feature have a property named popupContent?
     if (feature.properties) {
-        layer.bindPopup(`<h3>${ feature.properties.title }</h3><hr><p>${new Date(feature.properties.time)}</p >`);
+        layer.bindPopup(`<h3>${ feature.properties.title } at depth: ${feature.geometry.coordinates[2].toFixed(0)}m</h3><hr><p>${new Date(feature.properties.time)}</p >`);
     }
+}
+
+
 // }
 // 3.
 // createMap() takes the earthquake data and incorporates it into the visualization:
-function myMap(info,plates) {
-    console.log(plates)
+// 3.
+// createMap() takes the earthquake data and incorporates it into the visualization:
+function createMap(data, plate_data) {
 
     // apply the filter (if necessary)
-    var events = info.features
-
-    var earthquakes =  plates.features.filter(x => x.geometry.coordinates);
+    var earthquakes = data.features
 
     // Base Layers
-    var dark = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+    var dark_layer = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
         id: 'mapbox/dark-v10',
         accessToken: API_KEY
     });
 
-    var light = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+    var light_layer = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
         id: 'mapbox/light-v10',
         accessToken: API_KEY
     });
 
-    var street = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+    var street_layer = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
         id: 'mapbox/streets-v11',
         accessToken: API_KEY
     });
 
-    var outdoors = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+    var outdoors_layer = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
         id: 'mapbox/outdoors-v11',
         accessToken: API_KEY
@@ -147,54 +90,53 @@ function myMap(info,plates) {
 
 
     // Create an overlays object.
-    var earthquakeLayer = L.geoJSON(events, {
-        marker: marker
+    var earthquakeLayer = L.geoJSON(earthquakes, {
+        onEachFeature: onEachFeature
     });
-    var plateLayer = L.geoJSON(earthquakes, {
-        // marker: marker
+
+    // plate layer
+    var plateLayer = L.geoJson(plate_data.features, {
+        style: {
+            "color": "orange",
+            "weight": 1,
+            "opacity": 0.8
+        }
     });
+
     // A SECOND OVERLAY OBJECT
     var circles = [];
-    for (let i = 0; i < events.length; i++) {
-        let event = events[i];
-        let circle_color = getColor(event.properties.mag);
+    for (let i = 0; i < earthquakes.length; i++) {
+        let earthquake = earthquakes[i];
+        let circle_color = "green";
 
-        let location = [event.geometry.coordinates[1], event.geometry.coordinates[0]]
+        let location = [earthquake.geometry.coordinates[1], earthquake.geometry.coordinates[0]]
 
         let circle = L.circle(location, {
-            color: circle_color,
-            fillColor: circle_color,
-            fillOpacity: 0.75,
-            radius: getRadius(event.properties.mag)
-            
-        }).bindPopup(`<h3><strong>${ event.properties.title }</strong></h3><hr><p><em>${new Date(event.properties.time)}</em></p >`);
+            color: getColor(earthquake.geometry.coordinates[2]),
+            fillColor: getColor(earthquake.geometry.coordinates[2]),
+            fillOpacity: 0.8,
+            radius: getRadius(earthquake.properties.mag)
+        }).bindPopup(`<h3>${ earthquake.properties.title } at depth: ${earthquake.geometry.coordinates[2].toFixed(0)}m</h3><hr><p>${new Date(earthquake.properties.time)}</p >`);
         circles.push(circle);
     }
-        
 
     var circleLayer = L.layerGroup(circles);
 
 
     // Create a baseMaps object.
     var baseMaps = {
-        "Dark": dark,
-        "Light": light,
-        "Street": street,
-        "Outdoors": outdoors,
-        worldCopyJump: true
+        "Dark": dark_layer,
+        "Light": light_layer,
+        "Street": street_layer,
+        "Outdoors": outdoors_layer
     };
 
     // Overlays that can be toggled on or off
     var overlayMaps = {
         Markers: earthquakeLayer,
         Circles: circleLayer,
-        worldCopyJump: true
+        Plates: plateLayer
     };
-
-    var overlayMaps2 = {
-        Earthquake: plateLayer
-    };
-
 
     // Create a new map.
     // Edit the code to add the earthquake data to the layers.
@@ -203,58 +145,53 @@ function myMap(info,plates) {
             37.09, -95.71
         ],
         zoom: 5,
-        layers: [dark, circleLayer],
-        worldCopyJump: true
+        layers: [dark_layer, circleLayer, plateLayer]
     });
 
     // Create a layer control that contains our baseMaps.
     // Be sure to add an overlay Layer that contains the earthquake GeoJSON.
-    var legend = L.control({ position: "bottomleft" });
+    L.control.layers(baseMaps, overlayMaps).addTo(myMap);
 
-    L.control.layers(baseMaps, overlayMaps, overlayMaps2).addTo(myMap);
+    // add legend
+    // https://gis.stackexchange.com/questions/133630/adding-leaflet-legend
+    var legend = L.control({
+        position: "bottomright"
+    });
 
-    legend.onAdd = function(map) {
-        var div = L.DomUtil.create("div", "legend");
-        div.innerHTML += "<h4>Richter Scale</h4>";
-        div.innerHTML += '<i style="background: #EE8434"></i><span>-10 to 10</span><br>';
-        div.innerHTML += '<i style="background: #C95D63"></i><span>10 to 30</span><br>';
-        div.innerHTML += '<i style="background: #AE8799"></i><span>30 to 50</span><br>';
-        div.innerHTML += '<i style="background: #717EC3"></i><span>50 to 70</span><br>';
-        div.innerHTML += '<i style="background: #496DDB"></i><span>70 to 90</span><br>';
-        div.innerHTML += '<i style="background: #3E505B"></i><span>90+</span><br>';
-        
-        
-        
-      
+    legend.onAdd = function() {
+        var div = L.DomUtil.create('div', 'info legend');
+        var labels = ["<10", "10-30", "30-70", "70+"];
+        var colors = ["green", "yellow", "orange", "red"];
+
+        for (let i = 0; i < labels.length; i++) {
+            let label = labels[i];
+            let color = colors[i];
+
+            let html = `<i style='background:${color}'></i>${label}<br>`;
+            div.innerHTML += html;
+        }
         return div;
-      };
-      
-      legend.addTo(myMap);
-
-
-function getRadius(mag) {
-        return mag * 10000
-}
-
-function getColor(mag) {
-    let color2 = '#3E505B';
-
-    if (mag <= 1.0) {
-        color2 = "#EE8434";
-    } else if (mag <= 3.0) {
-        color2 = "#C95D63";
-    } else if (mag <=5.0) {
-        color2 = "#AE8799";
-    } else if (mag <= 7.0) {
-        color2 = "#717EC3";
-    } else if (mag <= 9.0) {
-        color2 = "#496DDB";
-    } else {
-        color2 = '#3E505B';
     }
 
-    return (color2);
+    legend.addTo(myMap);
 }
 
+function getRadius(mag) {
+    return mag * 10000
 }
+
+function getColor(depth) {
+    let color = 'red';
+
+    if (depth >= 70) {
+        color = "red";
+    } else if (depth >= 30) {
+        color = "orange";
+    } else if (depth >= 10) {
+        color = "yellow";
+    } else {
+        color = 'green';
+    }
+
+    return (color);
 }
