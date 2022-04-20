@@ -2,7 +2,7 @@
 
 I analyzed employee data using SQL and PG Admin.
 
-<p align="center">
+<p align="left">
   <img width="600" height="400" src="ERD2.png">
 </p>
 
