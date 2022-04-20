@@ -15,14 +15,16 @@ parameter if these anti-tumor drugs are to be clinically test in the human popul
 <p align="center">
   <img width="460" height="300" src="mat1.png">
 </p>
-
-![Alt text](mat1.png?raw=true "Title")
-
-![Alt text](mat2.png?raw=true "Title")
-
-![Alt text](mat3.png?raw=true "Title")
-
-![Alt text](mat4.png?raw=true "Title")
-
-![Alt text](mat5.png?raw=true "Title")
+<p align="center">
+  <img width="460" height="300" src="mat2.png">
+</p>
+<p align="center">
+  <img width="460" height="300" src="mat3.png">
+</p>
+<p align="center">
+  <img width="460" height="300" src="mat4.png">
+</p>
+<p align="center">
+  <img width="460" height="300" src="mat5.png">
+</p>
   
